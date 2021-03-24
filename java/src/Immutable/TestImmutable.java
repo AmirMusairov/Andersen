@@ -27,18 +27,12 @@ public class TestImmutable {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
-    public void testImmutableObject() {
-        String s = "Immutable";
-        int count = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) != ' ') {
-                count++;
-            }
-        }
-        MyImmutableClass immutable = new MyImmutableClass(count, s, new Date(2021, 3, 23));
-        assertEquals(immutable.getCount(), 9);
-        assertEquals(immutable.getCreation(), new Date(2021, 3, 23));
-        assertEquals(immutable.getName(), "Immutable");
+    public void testConstructor() {
+        MyImmutableClass immutableClass = new MyImmutableClass(4, "Test", new Date());
+        assertEquals(4, immutableClass.getCount());
+        assertEquals("Test", immutableClass.getName());
+        assertEquals(new Date(), immutableClass.getCreation());
+
     }
+
 }
