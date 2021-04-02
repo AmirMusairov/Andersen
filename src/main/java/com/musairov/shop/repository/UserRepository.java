@@ -1,6 +1,7 @@
 package com.musairov.shop.repository;
 
 import com.musairov.shop.dao.User;
+import com.musairov.shop.utils.DbConnection;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -8,10 +9,7 @@ import java.sql.*;
 import java.util.UUID;
 
 @Slf4j
-public class UserRepository {
-    private static final String DB_USER = "user";
-    private static final String DB_PASSWORD = "password";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/internet-shop?serverTimezone=UTC";
+public class UserRepository extends DbConnection {
 
     public User getByLoginAndPassword(String login, String password) {
         User user = null;

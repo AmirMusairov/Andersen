@@ -2,6 +2,7 @@ package com.musairov.shop.repository;
 
 import com.musairov.shop.dao.Product;
 import com.musairov.shop.dao.ProductGroup;
+import com.musairov.shop.utils.DbConnection;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -10,11 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class ProductRepository {
+public class ProductRepository extends DbConnection {
     public List<Product> products = new ArrayList<>();
-    private static final String DB_USER = "user";
-    private static final String DB_PASSWORD = "password";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/internet-shop?serverTimezone=UTC";
 
     public ProductRepository() {
     }
@@ -22,7 +20,7 @@ public class ProductRepository {
     public boolean create(String name, BigDecimal price, ProductGroup productGroup) {
         int rows = 0;
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            PreparedStatement ps = connection.prepareStatement("insert into products (name, price, category) values (?, ?, ?);");
+            PreparedStatement ps = connection.prepareStatement("insert into products (name, price, group ) values (?, ?, ?);");
             ps.setString(1, name);
             ps.setBigDecimal(2, price);
             ps.setString(3, productGroup.name());
@@ -44,7 +42,7 @@ public class ProductRepository {
                 product = new Product(
                         rs.getInt("id"),
                         rs.getString("name"),
-                        ProductGroup.valueOf(rs.getString("category")),
+                        ProductGroup.valueOf(rs.getString("group")),
                         rs.getBigDecimal("price")
                 );
             }
@@ -63,7 +61,7 @@ public class ProductRepository {
                 products.add(new Product(
                         rs.getInt("id"),
                         rs.getString("name"),
-                        ProductGroup.valueOf(rs.getString("category")),
+                        ProductGroup.valueOf(rs.getString("group")),
                         rs.getBigDecimal("price")
                 ));
             }

@@ -5,6 +5,7 @@ import com.musairov.shop.dao.Bucket;
 import com.musairov.shop.dao.Product;
 import com.musairov.shop.dao.User;
 import com.musairov.shop.dao.Warehouse;
+import com.musairov.shop.utils.DbConnection;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -14,10 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
-public class BucketRepository implements Serializable {
-    private static final String DB_USER = "user";
-    private static final String DB_PASSWORD = "password";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/internet-shop?serverTimezone=UTC";
+public class BucketRepository extends DbConnection implements Serializable {
 
     private final ProductRepository productRepository;
     private final Warehouse warehouse;
@@ -48,7 +46,7 @@ public class BucketRepository implements Serializable {
         }
     }
 
-    public void addProduct(Product product, Integer count) {
+    public boolean addProduct(Product product, Integer count) {
         checkInput(product, count);
 
         int countOnWarehouse = warehouse.countProductById(product.getId());
@@ -64,7 +62,7 @@ public class BucketRepository implements Serializable {
             insertProduct(product.getId(), count);
         }
 
-        warehouse.reduceCountProducts(product.getId(), count);
+        return warehouse.reduceCountProducts(product.getId(), count);
     }
 
     private void insertProduct(Integer productId, Integer count) {

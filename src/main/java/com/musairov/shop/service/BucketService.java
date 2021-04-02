@@ -1,11 +1,13 @@
 package com.musairov.shop.service;
 
 import com.musairov.shop.currency.Currency;
+import com.musairov.shop.dao.Product;
 import com.musairov.shop.dao.Warehouse;
 import com.musairov.shop.repository.BucketRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Slf4j
 public class BucketService {
@@ -23,16 +25,19 @@ public class BucketService {
     }
 
     public boolean addProductToBucket(Integer productId, Integer count) {
+        boolean added = false;
         try {
-            bucketRepository.addProduct(warehouse.getById(productId, count), count);
-            return true;
+            added = bucketRepository.addProduct(warehouse.getById(productId, count), count);
         } catch (IllegalArgumentException e) {
             System.out.println("No products in warehouse");
-            return false;
         } catch (NullPointerException e) {
             System.out.println("Product not found!");
-            return false;
         }
+        return added;
+    }
+
+    public boolean addProductToBucket(Integer productId) {
+        return addProductToBucket(productId, 1);
     }
 
     public boolean deleteProductFromTheBucket(Integer productId, Integer count) {
@@ -41,18 +46,27 @@ public class BucketService {
             return false;
         }
 
+        boolean deleted = false;
         try {
             bucketRepository.removeProduct(warehouse.getById(productId), count);
-            return true;
+            deleted = true;
         } catch (NullPointerException | IllegalArgumentException e) {
             System.out.printf("Something went wrong", count);
-            return false;
         }
+        return deleted;
+    }
+
+    public boolean deleteProductFromTheBucket(Integer productId) {
+        return deleteProductFromTheBucket(productId, 1);
     }
 
     public void showProductsInTheBucket() {
         bucketRepository.getAll()
                 .forEach((product, count) -> System.out.println(product + ": count = " + count));
+    }
+
+    public Map<Product, Integer> getProducts() {
+        return bucketRepository.getAll();
     }
 
     public void clearBucket() {

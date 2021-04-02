@@ -14,5 +14,4 @@ public class Product implements Serializable {
     private final String name;
     private final ProductGroup productGroup;
     private final BigDecimal price;
-
 }

@@ -1,6 +1,7 @@
 package com.musairov.shop.dao;
 
 import com.musairov.shop.repository.ProductRepository;
+import com.musairov.shop.utils.DbConnection;
 import com.musairov.shop.utils.ExpiredDateProducts;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,11 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
-public class Warehouse {
-    private static final String DB_USER = "user";
-    private static final String DB_PASSWORD = "password";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/internet-shop?serverTimezone=UTC";
-
+public class Warehouse extends DbConnection {
     private final ProductRepository productRepository;
 
     public Warehouse(ProductRepository productRepository) {

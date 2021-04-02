@@ -2,6 +2,7 @@ package com.musairov.shop.repository;
 
 import com.musairov.shop.dao.Order;
 import com.musairov.shop.dao.User;
+import com.musairov.shop.utils.DbConnection;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -12,10 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Slf4j
-public class OrderRepository {
-    private static final String DB_USER = "user";
-    private static final String DB_PASSWORD = "password";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/internet-shop?serverTimezone=UTC";
+public class OrderRepository extends DbConnection {
 
     public boolean create(UUID userId, BigDecimal total, Boolean accepted) {
         int rows = 0;
