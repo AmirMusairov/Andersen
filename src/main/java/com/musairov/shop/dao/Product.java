@@ -1,28 +1,18 @@
 package com.musairov.shop.dao;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
+@RequiredArgsConstructor
 public class Product implements Serializable {
 
-    private Integer id;
-    private String name;
-    private ProductGroup productGroup;
-    private BigDecimal price;
+    private final Integer id;
+    private final String name;
+    private final ProductGroup productGroup;
+    private final BigDecimal price;
 
-    public Product(String name, BigDecimal price, ProductGroup productGroup) {
-        this.name = name;
-        this.price = price;
-        this.productGroup = productGroup;
-    }
-
-    public Product(Integer id, String name, BigDecimal price, ProductGroup productGroup) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.productGroup = productGroup;
-    }
 }

@@ -44,11 +44,8 @@ public class BucketService {
         try {
             bucketRepository.removeProduct(warehouse.getById(productId), count);
             return true;
-        } catch (NullPointerException e) {
-            System.out.println("Product not found!");
-            return false;
-        } catch (IllegalArgumentException e) {
-            System.out.printf("Wrong number!", count);
+        } catch (NullPointerException | IllegalArgumentException e) {
+            System.out.printf("Something went wrong", count);
             return false;
         }
     }

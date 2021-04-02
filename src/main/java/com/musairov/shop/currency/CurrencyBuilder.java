@@ -23,7 +23,7 @@ public class CurrencyBuilder {
             case 3:
                 return CurrencyCode.EUR;
             default:
-                throw new NullPointerException("Can't convert");
+                throw new IllegalArgumentException("Can't convert");
         }
     }
 }

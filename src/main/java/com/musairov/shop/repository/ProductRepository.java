@@ -44,8 +44,8 @@ public class ProductRepository {
                 product = new Product(
                         rs.getInt("id"),
                         rs.getString("name"),
-                        rs.getBigDecimal("price"),
-                        ProductGroup.valueOf(rs.getString("category"))
+                        ProductGroup.valueOf(rs.getString("category")),
+                        rs.getBigDecimal("price")
                 );
             }
         } catch (SQLException e) {
@@ -63,8 +63,8 @@ public class ProductRepository {
                 products.add(new Product(
                         rs.getInt("id"),
                         rs.getString("name"),
-                        rs.getBigDecimal("price"),
-                        ProductGroup.valueOf(rs.getString("category"))
+                        ProductGroup.valueOf(rs.getString("category")),
+                        rs.getBigDecimal("price")
                 ));
             }
         } catch (SQLException e) {

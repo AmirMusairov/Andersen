@@ -59,8 +59,10 @@ public class AppController {
                 break;
             case 0:
                 authService.exit();
+                break;
             default:
                 bucketService.showProductList();
+                break;
         }
     }
 
@@ -85,8 +87,7 @@ public class AppController {
         bucketService.showProductList();
         Integer productId = getIntAnswer("Select a product ID:");
         int countProducts = getIntAnswer("Count of products:");
-        boolean wasAdded = bucketService.addProductToBucket(productId, countProducts);
-        if (wasAdded) {
+        if (bucketService.addProductToBucket(productId, countProducts)) {
             System.out.println("Product was added");
         }
     }
@@ -146,8 +147,7 @@ public class AppController {
             bucketService.showProductsInTheBucket();
             Integer productId = getIntAnswer("Select a product ID:");
             Integer countProducts = getIntAnswer("Count of products:");
-            boolean wasRemoved = bucketService.deleteProductFromTheBucket(productId, countProducts);
-            if (wasRemoved) {
+            if(bucketService.deleteProductFromTheBucket(productId, countProducts)) {
                 System.out.println("Product was removed!");
             }
         }
