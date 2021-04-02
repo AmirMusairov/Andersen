@@ -147,7 +147,7 @@ public class AppController {
             bucketService.showProductsInTheBucket();
             Integer productId = getIntAnswer("Select a product ID:");
             Integer countProducts = getIntAnswer("Count of products:");
-            if(bucketService.deleteProductFromTheBucket(productId, countProducts)) {
+            if (bucketService.deleteProductFromTheBucket(productId, countProducts)) {
                 System.out.println("Product was removed!");
             }
         }
