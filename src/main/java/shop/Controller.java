@@ -22,7 +22,7 @@ public class Controller {
             bucket.addProduct(warehouse.getById(productId, count), count);
             return true;
         } catch (IllegalArgumentException e) {
-            System.out.println("*** No products in warehouse");
+            System.out.println("No products in warehouse");
             return false;
         } catch (NullPointerException e) {
             System.out.println("Product not found!");
@@ -63,7 +63,7 @@ public class Controller {
     }
 
     public void exit() {
-        System.out.println("Good bye, see you next time!");
+        System.out.println("Goodbye, see you next time!");
     }
 
     public BigDecimal makeOrder(Currency currency) {

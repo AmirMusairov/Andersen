@@ -87,13 +87,13 @@ public class Warehouse {
     }
 
     public void boot() {
-        addProduct( new Product(0,"Mango", ProductGroup.FOOD,BigDecimal.valueOf(5.0)));
-        addProduct(new Product(1, "Apple",ProductGroup.FOOD,BigDecimal.valueOf(2.5)));
-        addProduct(new Product(2, "Knife",ProductGroup.NOT_FOOD,BigDecimal.valueOf(35.6)));
-        addProduct(new Product(3, "Forks and Spoons",ProductGroup.NOT_FOOD,BigDecimal.valueOf(54.5)));
-        addProduct(new ShelfLifeProduct(4,"Cheese",ProductGroup.FERMENTED_MILK,BigDecimal.valueOf(105.8)));
-        addProduct(new ShelfLifeProduct(5,"Butter",ProductGroup.FERMENTED_MILK,BigDecimal.valueOf(45.9)));
-        addProduct(new Product(0,"Meat", ProductGroup.FOOD,BigDecimal.valueOf(100.3)),100);
-        addProduct(new ShelfLifeProduct(5,"Mayonnaise",ProductGroup.FERMENTED_MILK,BigDecimal.valueOf(11.3)), 123);
+        addProduct(new Product(0, "Mango", ProductGroup.FOOD, BigDecimal.valueOf(5.0)));
+        addProduct(new Product(1, "Apple", ProductGroup.FOOD, BigDecimal.valueOf(2.5)));
+        addProduct(new Product(2, "Knife", ProductGroup.NOT_FOOD, BigDecimal.valueOf(35.6)));
+        addProduct(new Product(3, "Forks and Spoons", ProductGroup.NOT_FOOD, BigDecimal.valueOf(54.5)));
+        addProduct(new ShelfLifeProduct(4, "Cheese", ProductGroup.FERMENTED_MILK, BigDecimal.valueOf(105.8)));
+        addProduct(new ShelfLifeProduct(5, "Butter", ProductGroup.FERMENTED_MILK, BigDecimal.valueOf(45.9)));
+        addProduct(new Product(0, "Meat", ProductGroup.FOOD, BigDecimal.valueOf(100.3)), 100);
+        addProduct(new ShelfLifeProduct(5, "Mayonnaise", ProductGroup.FERMENTED_MILK, BigDecimal.valueOf(11.3)), 123);
     }
 }

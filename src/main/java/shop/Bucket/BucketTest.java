@@ -110,4 +110,12 @@ class BucketTest {
 
         assertEquals(300, total.doubleValue());
     }
+
+    @Test
+    void calculateWithWrongCurrency() {
+        assertThrows(
+                NullPointerException.class,
+                () -> CurrencyBuilder.convert(4)
+        );
+    }
 }

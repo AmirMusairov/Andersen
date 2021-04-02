@@ -70,10 +70,10 @@ public class Launcher {
                 break;
             case 6:
                 Menu.showCurrencyMenu();
-                Integer currencyNumber = askQuestion("Select a currency:");
+                Integer currencyNumber = askQuestion("Select the currency:");
                 CurrencyCode currencyCode = CurrencyBuilder.convert(currencyNumber);
                 if (Objects.isNull(currencyCode)) {
-                    System.out.println("Your order canceled");
+                    System.out.println("Your order is canceled");
                 } else {
                     Currency currency = CurrencyBuilder.getCurrency(currencyCode);
                     BigDecimal total = controller.makeOrder(currency);
