@@ -5,15 +5,18 @@ import com.musairov.shop.currency.CurrencyBuilder;
 import com.musairov.shop.currency.CurrencyCode;
 import com.musairov.shop.dao.Order;
 import com.musairov.shop.dao.User;
-import com.musairov.shop.dao.Warehouse;
 import com.musairov.shop.repository.BucketRepository;
 import com.musairov.shop.repository.ProductRepository;
+import com.musairov.shop.repository.WarehouseRepository;
 import com.musairov.shop.service.AuthService;
 import com.musairov.shop.service.BucketService;
 import com.musairov.shop.service.OrderService;
+import com.musairov.shop.service.WarehouseService;
 import com.musairov.shop.utils.Menu;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.taglibs.standard.tag.common.sql.DataSourceWrapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,7 +29,7 @@ import static com.musairov.shop.utils.QuestionGenerator.getStringAnswer;
 @RequiredArgsConstructor
 public class AppController {
     private final AuthService authService;
-    private final Warehouse warehouse;
+    private final WarehouseRepository warehouseRepository;
     private final OrderService orderService;
     private BucketService bucketService;
 
@@ -198,9 +201,16 @@ public class AppController {
     }
 
     private void initBucketController(User user) {
+        WarehouseService warehouseService = new WarehouseService(warehouseRepository);
         bucketService = new BucketService(
-                warehouse,
-                new BucketRepository(user, new ProductRepository(), warehouse)
+                warehouseService,
+                new BucketRepository(
+                        new ProductRepository(new JdbcTemplate(), new DataSourceWrapper()),
+                        warehouseRepository,
+                        authService,
+                        new JdbcTemplate(),
+                        new DataSourceWrapper()
+                )
         );
     }
 }

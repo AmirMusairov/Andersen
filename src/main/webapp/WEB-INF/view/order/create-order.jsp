@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>Create Order</h1>
+<p><a href="/main">menu</a></p>
 
 <table>
     <tr>
@@ -34,6 +35,5 @@
     <button type="submit">make order</button>
 </form>
 
-<p><a href="/main">menu</a></p>
 </body>
 </html>

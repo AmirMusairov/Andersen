@@ -1,32 +1,46 @@
 package com.musairov.shop.repository;
 
 import com.musairov.shop.dao.User;
-import com.musairov.shop.utils.DbConnection;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.sql.DataSource;
 import java.sql.*;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
-public class UserRepository extends DbConnection {
+@RequiredArgsConstructor
+public class UserRepository {
+    private final JdbcTemplate jdbcTemplate;
+    private final DataSource dataSource;
 
     public User getByLoginAndPassword(String login, String password) {
         User user = null;
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            PreparedStatement ps = connection.prepareStatement("select * from customers where login = ? and password = ?");
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
 
-            ps.setString(1, login);
             String hash = DigestUtils.sha512_224Hex(password);
-            ps.setString(2, hash);
-            ResultSet resultSet = ps.executeQuery();
-            if (resultSet.next()) {
-                String id = resultSet.getString("id");
-                user = new User(UUID.fromString(id), login, hash);
-                System.out.println("Welcome: " + user.toString());
+            user = jdbcTemplate.queryForObject(
+                    "select * from customers where login = ? and password = ?",
+                    new Object[]{login, hash},
+                    (rs, i) -> new User(UUID.fromString(rs.getString("id")), login, hash)
+            );
+            connection.commit();
+        } catch (Exception e) {
+            System.out.println("User Exception");
+            try {
+                if (Objects.nonNull(connection)) {
+                    connection.rollback();
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Rollback Exception");
             }
-        } catch (SQLException e) {
-            System.out.println("Login Error");
         }
 
         return user;
@@ -34,19 +48,33 @@ public class UserRepository extends DbConnection {
 
     public User create(String login, String password) {
         User user = null;
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            PreparedStatement ps = connection.prepareStatement("insert into customers (id, login, password) values (?, ?, ?)");
-            String id = UUID.randomUUID().toString();
-            ps.setString(1, id);
-            ps.setString(2, login);
-            ps.setString(3, DigestUtils.sha512_224Hex(password));
-            int rows = ps.executeUpdate();
+        Connection connection = null;
+
+        try {
+            connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
+
+            int rows = jdbcTemplate.update(
+                    "insert into customers (id, login, password) values (?, ?, ?)",
+                    UUID.randomUUID().toString(),
+                    login,
+                    DigestUtils.sha512_224Hex(password)
+            );
 
             if (rows != 0) {
                 user = getByLoginAndPassword(login, password);
             }
-        } catch (SQLException e) {
-            System.out.println("Registration Error");
+            connection.commit();
+        } catch (Exception e) {
+            System.out.println("User Exception");
+            try {
+                if (Objects.nonNull(connection)) {
+                    connection.rollback();
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Rollback Exception");
+            }
         }
 
         return user;

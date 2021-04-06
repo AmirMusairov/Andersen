@@ -4,121 +4,27 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
-    <servlet>
-        <servlet-name>mainServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.MainServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>mainServlet</servlet-name>
-        <url-pattern>/main</url-pattern>
-    </servlet-mapping>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/context.xml</param-value>
+    </context-param>
 
     <servlet>
-        <servlet-name>loginServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.LoginServlet</servlet-class>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>WEB-INF/context.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>loginServlet</servlet-name>
-        <url-pattern>/auth</url-pattern>
-    </servlet-mapping>
 
-    <servlet>
-        <servlet-name>registrationServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.RegistrationServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
-        <servlet-name>registrationServlet</servlet-name>
-        <url-pattern>/registration</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>warehouseServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.WarehouseServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>warehouseServlet</servlet-name>
-        <url-pattern>/warehouse-products</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>bucketServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.BucketServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>bucketServlet</servlet-name>
-        <url-pattern>/products</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>logoutServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.LogoutServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>logoutServlet</servlet-name>
-        <url-pattern>/logout</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>clearBucketServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.ClearBucketServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>clearBuckerServlet</servlet-name>
-        <url-pattern>/clear</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>orderHistoryServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.OrderHistoryServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>orderHistoryServlet</servlet-name>
-        <url-pattern>/order/order-history</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>declinedOrdersServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.DeclinedOrderServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>declinedOrdersServlet</servlet-name>
-        <url-pattern>/order/declined-order</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>acceptedOrderServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.AcceptedOrderServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>acceptedOrderServlet</servlet-name>
-        <url-pattern>/order/accept</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>addProductToBucketServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.AddProductToBucketServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>addProductToBucketServlet</servlet-name>
-        <url-pattern>/add-product</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>deleteProductFromBucketServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.DeleteProductFromBucketServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>deleteProductFromBucketServlet</servlet-name>
-        <url-pattern>/delete-product</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>orderServlet</servlet-name>
-        <servlet-class>com.musairov.shop.servlets.OrderServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>orderServlet</servlet-name>
-        <url-pattern>/order/create-order</url-pattern>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
 </web-app>

@@ -2,31 +2,45 @@ package com.musairov.shop.repository;
 
 import com.musairov.shop.dao.Product;
 import com.musairov.shop.dao.ProductGroup;
-import com.musairov.shop.utils.DbConnection;
+import com.musairov.shop.dao.ProductMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
-public class ProductRepository extends DbConnection {
-    public List<Product> products = new ArrayList<>();
-
-    public ProductRepository() {
-    }
+@RequiredArgsConstructor
+public class ProductRepository {
+    private final JdbcTemplate jdbcTemplate;
+    private final DataSource dataSource;
 
     public boolean create(String name, BigDecimal price, ProductGroup productGroup) {
         int rows = 0;
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            PreparedStatement ps = connection.prepareStatement("insert into products (name, price, group ) values (?, ?, ?);");
-            ps.setString(1, name);
-            ps.setBigDecimal(2, price);
-            ps.setString(3, productGroup.name());
-            rows = ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Product Error");
+        Connection connection = null;
+
+        try {
+            connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
+
+            rows = jdbcTemplate.update("insert into products (name, price, group) values (?, ?, ?)", name, price, productGroup.name());
+
+            connection.commit();
+        } catch (Exception e) {
+            System.out.println("Product Exception");
+            try {
+                if (Objects.nonNull(connection)) {
+                    connection.rollback();
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Rollback Exception");
+            }
         }
 
         return rows != 0;
@@ -34,39 +48,54 @@ public class ProductRepository extends DbConnection {
 
     public Product getById(Integer id) {
         Product product = null;
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            PreparedStatement ps = connection.prepareStatement("select * from products where id = ?;");
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                product = new Product(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        ProductGroup.valueOf(rs.getString("group")),
-                        rs.getBigDecimal("price")
-                );
+        Connection connection = null;
+
+        try {
+            connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
+
+            product = jdbcTemplate.queryForObject(
+                    "select * from products where id = ?",
+                    new Object[]{id},
+                    new ProductMapper());
+            connection.commit();
+
+        } catch (Exception e) {
+            System.out.println("Product Exception");
+            try {
+                if (Objects.nonNull(connection)) {
+                    connection.rollback();
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Rollback Exception");
             }
-        } catch (SQLException e) {
-            System.out.println("Product Error");
         }
 
         return product;
     }
 
     public List<Product> getAll() {
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            PreparedStatement ps = connection.prepareStatement("select * from products");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                products.add(new Product(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        ProductGroup.valueOf(rs.getString("group")),
-                        rs.getBigDecimal("price")
-                ));
+        List<Product> products = Collections.emptyList();
+        Connection connection = null;
+
+        try {
+            connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
+
+            products = jdbcTemplate.query("select * from products", new ProductMapper());
+            connection.commit();
+
+        } catch (Exception e) {
+            System.out.println("Product Exception");
+            try {
+                if (Objects.nonNull(connection)) {
+                    connection.rollback();
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Rollback Exception");
             }
-        } catch (SQLException e) {
-            System.out.println("Product Error");
         }
 
         return products;
