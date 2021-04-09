@@ -11,8 +11,8 @@
 
 <h2>Menu</h2>
 <ul>
-    <li><a href="/warehouse-products">Show product list</a></li>
-    <li><a href="/products">Show products in the bucket</a></li>
+    <li><a href="/warehouse/products">Show product list</a></li>
+    <li><a href="/bucket/products">Show products in the bucket</a></li>
     <li><a href="/clear">Clear bucket</a></li>
     <li><a href="/order/create-order">Create order</a></li>
     <li><a href="/order/order-history">Order history</a></li>

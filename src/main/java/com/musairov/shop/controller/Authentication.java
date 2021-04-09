@@ -1,4 +1,4 @@
-package com.musairov.shop.servlets;
+package com.musairov.shop.controller;
 
 import com.musairov.shop.dao.User;
 

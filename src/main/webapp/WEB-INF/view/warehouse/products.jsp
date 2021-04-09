@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>Products</h1>
+<p><a href="/main">menu</a></p>
 
 <table>
     <tr>
@@ -22,11 +23,10 @@
             <td>${pair.key.price}</td>
             <td>${pair.key.group}</td>
             <td>${pair.value}</td>
-            <td><a href="/add-product?productId=${pair.key.id}">add</a></td>
+            <td><a href="/bucket/add-product/${pair.key.id}">add</a></td>
         </tr>
     </c:forEach>
 </table>
 
-<p><a href="/main">menu</a></p>
 </body>
 </html>

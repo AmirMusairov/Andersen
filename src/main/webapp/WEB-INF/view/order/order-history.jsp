@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>Order History</h1>
+<p><a href="/main">menu</a></p>
 
 <table>
     <tr>
@@ -25,6 +26,5 @@
     </c:forEach>
 </table>
 
-<p><a href="/main">menu</a></p>
 </body>
 </html>

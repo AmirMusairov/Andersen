@@ -2,32 +2,28 @@ package com.musairov.shop.service;
 
 import com.musairov.shop.currency.Currency;
 import com.musairov.shop.dao.Product;
-import com.musairov.shop.dao.Warehouse;
 import com.musairov.shop.repository.BucketRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 @Slf4j
+@RequiredArgsConstructor
 public class BucketService {
-    private final Warehouse warehouse;
+    private final WarehouseService warehouseService;
     private final BucketRepository bucketRepository;
 
-    public BucketService(Warehouse warehouse, BucketRepository bucketRepository) {
-        this.warehouse = warehouse;
-        this.bucketRepository = bucketRepository;
-    }
-
     public void showProductList() {
-        warehouse.getAll()
+        warehouseService.getAll()
                 .forEach((product, count) -> System.out.println(product + ": count = " + count));
     }
 
     public boolean addProductToBucket(Integer productId, Integer count) {
         boolean added = false;
         try {
-            added = bucketRepository.addProduct(warehouse.getById(productId, count), count);
+            added = bucketRepository.addProduct(warehouseService.getById(productId, count), count);
         } catch (IllegalArgumentException e) {
             System.out.println("No products in warehouse");
         } catch (NullPointerException e) {
@@ -48,7 +44,7 @@ public class BucketService {
 
         boolean deleted = false;
         try {
-            bucketRepository.removeProduct(warehouse.getById(productId), count);
+            bucketRepository.removeProduct(warehouseService.getById(productId), count);
             deleted = true;
         } catch (NullPointerException | IllegalArgumentException e) {
             System.out.printf("Something went wrong", count);

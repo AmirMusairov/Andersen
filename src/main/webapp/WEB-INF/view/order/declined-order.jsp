@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>Declined Orders</h1>
+<p><a href="/main">menu</a></p>
 
 <table>
     <tr>
@@ -16,17 +17,16 @@
         <th>Accepted</th>
         <th>Accept</th>
     </tr>
-    <c:forEach var="order" items="${orders}" >
+    <c:forEach var="order" items="${orders}">
         <tr>
             <td>${order.id}</td>
             <td>${order.createdAt}</td>
             <td>${order.total}</td>
             <td>${order.accepted}</td>
-            <td><a href="/order/accept?orderId=${order.id}">accept</a></td>
+            <td><a href="/order/accept/${order.id}">accept</a></td>
         </tr>
     </c:forEach>
 </table>
 
-<p><a href="/main">menu</a></p>
 </body>
 </html>
